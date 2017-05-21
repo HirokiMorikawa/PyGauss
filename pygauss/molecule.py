@@ -160,7 +160,7 @@ class Molecule(object):
                 if fail_silently:
                     try:
                         method(fname)
-                    except Exception, e:
+                    except Exception as e:
                         self._init_read_errors.append([typ, fname, str(e)])   
                 else:
                     method(fname)
@@ -176,7 +176,7 @@ class Molecule(object):
             
 
         if type(group) is str:
-            if not self._atom_groups.has_key(group):
+            if group not in self._atom_groups:
                 raise ValueError('the molecule does not have an; {0}, atom group'.format(group))
             return self._atom_groups[group]
         
@@ -184,7 +184,7 @@ class Molecule(object):
         for i in group: 
             
             if type(i) is str:
-                if not self._atom_groups.has_key(i):
+                if i not in self._atom_groups:
                     raise ValueError('the molecule does not have an; {0}, atom group'.format(i))
                 atoms.extend(self._atom_groups[i])
             elif type(i) is int:
@@ -209,7 +209,7 @@ class Molecule(object):
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
-        for k, v in self.__dict__.items():
+        for k, v in list(self.__dict__.items()):
             setattr(result, k, copy.deepcopy(v, memo))
         return result
         
@@ -378,7 +378,7 @@ class Molecule(object):
         frequencies = self._read_data('_freq_data', 'vibfreqs')
         irs = self._read_data('_freq_data', 'vibirs')
        
-        return pd.DataFrame(zip(frequencies, irs), 
+        return pd.DataFrame(list(zip(frequencies, irs)), 
                              columns=['Frequency ($cm^{-1}$)', 
                              'IR Intensity ($km/mol$)'])
 
@@ -1737,7 +1737,7 @@ class Molecule(object):
             df_occupancy = pd.DataFrame(mol._read_data('_nbo_data', 'nbo_occupancy'),
                                         columns=['NBO', 'Atom', 'Occ'])
             sub_df = df_occupancy[df_occupancy.Atom.isin(atoms)].groupby('NBO').sum()
-            sub_df = sub_df.reindex(range(1, num_mo+1))
+            sub_df = sub_df.reindex(list(range(1, num_mo+1)))
             weights = sub_df.Occ.fillna(0)/100.
             
         else:
@@ -1749,7 +1749,7 @@ class Molecule(object):
                         density=False, weights=weights)
         #energy = bin_edges[:-1] + 0.5*(bin_edges[1:]-bin_edges[:-1])
         
-        df = pd.DataFrame(zip(e_edges[:-1], e_edges[1:], freq), 
+        df = pd.DataFrame(list(zip(e_edges[:-1], e_edges[1:], freq)), 
                           columns=['MinEnergy', 'MaxEnergy', 'Freq'])
         
         homo, lumo = mol.get_orbital_homo_lumo()

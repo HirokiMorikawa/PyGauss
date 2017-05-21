@@ -278,7 +278,7 @@ class Test_Orbitals(object):
         self.mol = pg.Molecule(folder_obj=pg.get_test_folder(),
                           opt_fname='CJS1_emim-cl_F_6-311+g-d-p-_gd3bj_opt-modredundant_unfrz.log',
                           nbo_fname='CJS1_emim-cl_F_6-311+g-d-p-_gd3bj_pop-nbo-full-_unfrz.log',
-                          atom_groups={'emim':range(1,20), 'cl':[20]},
+                          atom_groups={'emim':list(range(1,20)), 'cl':[20]},
                           alignto=[3,2,1])
 
     def test_orbital_count(self):
@@ -318,11 +318,11 @@ class Test_Combine_Molecules(object):
     def setUp(self):
         self.mol1 = pg.Molecule(folder_obj=pg.get_test_folder(),
                           opt_fname='CJS1_emim-cl_F_6-311+g-d-p-_gd3bj_opt-modredundant_unfrz.log',
-                          atom_groups={'emim':range(1,20), 'cl':[20]},
+                          atom_groups={'emim':list(range(1,20)), 'cl':[20]},
                           alignto=[3,2,1])
         self.mol2 = pg.Molecule(folder_obj=pg.get_test_folder(),
                           opt_fname='CJS1_emim-cl_F_6-311+g-d-p-_gd3bj_opt-modredundant_unfrz.log',
-                          atom_groups={'emim':range(1,20), 'cl':[20]},
+                          atom_groups={'emim':list(range(1,20)), 'cl':[20]},
                           alignto=[3,2,1])
 
     def test_combine_all(self):

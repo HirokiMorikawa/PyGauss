@@ -181,7 +181,7 @@ class ccData(object):
             elif v == list and k in self._listsofarrays:
                 setattr(self, k, [x.tolist() for x in getattr(self, k)])
             elif v == dict and k in self._dictsofarrays:
-                items = getattr(self, k).iteritems()
+                items = iter(getattr(self, k).items())
                 pairs = [(key, val.tolist()) for key, val in items]
                 setattr(self, k, dict(pairs))
     
@@ -200,7 +200,7 @@ class ccData(object):
             elif v == list and k in self._listsofarrays:
                 setattr(self, k, [numpy.array(x, precision) for x in getattr(self, k)])
             elif v == dict and k in self._dictsofarrays:
-                items = getattr(self, k).items()
+                items = list(getattr(self, k).items())
                 pairs = [(key, numpy.array(val, precision)) for key, val in items]
                 setattr(self, k, dict(pairs))
 

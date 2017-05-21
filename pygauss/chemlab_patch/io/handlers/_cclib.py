@@ -53,10 +53,10 @@ class Handler(IOHandler):
             # CJS added option to get molecule from steps of optimisation
             # or optimisations for PES scans
             # TODO error checking
-            if kwargs.has_key('step'):
+            if 'step' in kwargs:
                 return Molecule.from_arrays(r_array=self.data.atomcoords[kwargs['step']]/10, 
                                     type_array=np.array([symbols[a] for a in self.data.atomnos]))
-            elif kwargs.has_key('scan'):
+            elif 'scan' in kwargs:
                 return Molecule.from_arrays(r_array=self.data.scancoords[kwargs['scan']]/10, 
                                     type_array=np.array([symbols[a] for a in self.data.atomnos]))
             else:

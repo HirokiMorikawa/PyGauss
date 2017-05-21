@@ -51,4 +51,4 @@ def check_freqs_set(file_pattern, folder='',
 if __name__=='__main__':
     df = check_freqs_set('CJS1_coro-emim*P*+g*freq*log', '/work/cjs14/CJS1', 
     'login.cx1.hpc.ic.ac.uk', 'cjs14')
-    print df
+    print(df)

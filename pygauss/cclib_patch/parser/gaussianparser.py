@@ -11,7 +11,7 @@
 """Parser for Gaussian output files"""
 
 
-from __future__ import print_function
+
 import re
 
 import numpy
@@ -148,7 +148,7 @@ class Gaussian(logfileparser.Logfile):
 
             self.updateprogress(inputfile, "Symbolic Z-matrix", self.fupdate)
 
-            line = inputfile.next()
+            line = next(inputfile)
             while line.split()[0] == 'Charge':
 
                 # For the supermolecule, we can parse the charge and multicplicity.
@@ -165,7 +165,7 @@ class Gaussian(logfileparser.Logfile):
                 if line.strip()[-13:] == "model system.":
                     self.nmodels = getattr(self, 'nmodels', 0) + 1
 
-                line = inputfile.next()
+                line = next(inputfile)
 
             # The remaining part will allow us to get the atom count.
             # When coordinates are given, there is a blank line at the end, but if
@@ -176,7 +176,7 @@ class Gaussian(logfileparser.Logfile):
             natom = 0
             while line.split() and not "Variables" in line and not "Leave Link" in line:
                 natom += 1
-                line = inputfile.next()
+                line = next(inputfile)
             self.set_attribute('natom', natom)
 
         # Continuing from above, there is not always a symbolic matrix, for example
@@ -380,14 +380,14 @@ class Gaussian(logfileparser.Logfile):
             # For counterpoise fragment calcualtions, skip these lines.
             if self.counterpoise != 0: return
 
-            atom_line = inputfile.next()
+            atom_line = next(inputfile)
             self.gfprint = atom_line.split()[0] == "Atom"
             self.gfinput = not self.gfprint
 
             # Note how the shell information is on a separate line for gfinput,
             # whereas for gfprint it is on the same line as atom information.
             if self.gfinput:
-                shell_line = inputfile.next()
+                shell_line = next(inputfile)
 
             shell = []
             while len(self.gbasis) < self.natom:
@@ -403,7 +403,7 @@ class Gaussian(logfileparser.Logfile):
 
                 parameters = []
                 for ig in range(ngauss):
-                    line = inputfile.next()
+                    line = next(inputfile)
                     parameters.append(list(map(self.float, line.split())))
                 for iss, ss in enumerate(subshells):
                     contractions = []
@@ -415,7 +415,7 @@ class Gaussian(logfileparser.Logfile):
                     shell.append(subshell)
 
                 if self.gfprint:
-                    line = inputfile.next()
+                    line = next(inputfile)
                     if line.split()[0] == "Atom":
                         atomnum = int(re.sub(r"\D", "", line.split()[1]))
                         if atomnum == len(self.gbasis) + 2:
@@ -425,12 +425,12 @@ class Gaussian(logfileparser.Logfile):
                     else:
                         self.gbasis.append(shell)
                 else:
-                    line = inputfile.next()
+                    line = next(inputfile)
                     if line.strip() == "****":
                         self.gbasis.append(shell)
                         shell = []
-                        atom_line = inputfile.next()
-                        shell_line = inputfile.next()
+                        atom_line = next(inputfile)
+                        shell_line = next(inputfile)
                     else:
                         shell_line = line
 
@@ -712,7 +712,7 @@ class Gaussian(logfileparser.Logfile):
             while line != hyphens:
                 broken = line.split()
                 scanenergies.append(float(broken[-1]))
-                scanparm.append(map(float, broken[1:-1]))
+                scanparm.append(list(map(float, broken[1:-1])))
                 line = next(inputfile)
             if not hasattr(self, "scanenergies"):
                 self.scanenergies = []
@@ -1381,7 +1381,7 @@ class Gaussian(logfileparser.Logfile):
                     nline = next(inputfile)
                     charges.append(float(nline.split()[2]))
                 # CJS if using fragments you get total charges followed by alpha and beta charges
-                if not self.atomcharges.has_key("natural"):
+                if "natural" not in self.atomcharges:
                     self.atomcharges["natural"] = charges[:]
                 
         # CJS added extraction of NBO occupancy data

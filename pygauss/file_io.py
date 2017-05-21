@@ -70,7 +70,7 @@ class Folder(object):
             sftp = ssh.open_sftp()
             try:
                 sftp.stat(path)
-            except IOError, e:
+            except IOError as e:
                 ssh.close()
                 if e.errno == errno.ENOENT:
                     raise IOError("{0} does not exist on server: {1}".format(path, 
@@ -107,13 +107,13 @@ class Folder(object):
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
             ssh.connect(ssh_server, username=ssh_username, password=ssh_passwrd)
-        except socket.error, e:
+        except socket.error as e:
             raise IOError(
             'could not connect to the ssh server: \n {0} \n {1}'.format(ssh_server, e))
-        except paramiko.ssh_exception.AuthenticationException, e:
+        except paramiko.ssh_exception.AuthenticationException as e:
             raise IOError(
             'username or password authentication error \n {0}'.format(e))
-        except Exception, e:
+        except Exception as e:
             raise IOError('error connecting to server: \n {0}'.format(e))
 
         return ssh
@@ -171,7 +171,7 @@ class Folder(object):
                 pattern = "".join(
                 [ c if c.isalnum() or c=='*' else "["+c+"]" for c in pattern]
                 ).replace('*', '.*')
-                files = filter(lambda x: re.match(pattern,x), files)
+                files = [x for x in files if re.match(pattern,x)]
         
         if not one_file:
             return files

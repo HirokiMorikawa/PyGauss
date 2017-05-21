@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from itertools import product, imap
+from itertools import product
 import copy
 import math
 import string
@@ -22,7 +22,7 @@ from .utils import df_to_img
 from .file_io import Folder
 
 def unpack_and_make_molecule(val_dict):      
-    if val_dict.has_key('args'):
+    if 'args' in val_dict:
         args = val_dict.pop('args')
     else:
         args = []            
@@ -111,8 +111,8 @@ class Analysis(object):
                             alignto=alignto, atom_groups=atom_groups,
                             fail_silently=True)
         
-        num_files = filter(lambda x:x, [init_fname, opt_fname, 
-                                        freq_fname, nbo_fname])
+        num_files = [x for x in [init_fname, opt_fname, 
+                                        freq_fname, nbo_fname] if x]
         read_errors = molecule.get_init_read_errors()
         if len(read_errors) != num_files and (not read_errors or add_if_error):                
                 self._add_molecule(molecule, identifiers)
@@ -145,8 +145,8 @@ class Analysis(object):
                 all_read_errors.append(read_errors)
 
                 if ipython_print: 
-                    print 'Reading data {0} of {1}'.format(len(molecules), 
-                                                           len(mol_inputs))
+                    print('Reading data {0} of {1}'.format(len(molecules), 
+                                                           len(mol_inputs)))
                     try:
                         clear_output(wait=True)    
                     except:
@@ -174,7 +174,7 @@ class Analysis(object):
         identifiers = []
         for idents in product(*values):
             mol_input = {}
-            identifiers.append(dict(zip(headers, idents)))
+            identifiers.append(dict(list(zip(headers, idents))))
             mol_input['init_fname'] = init_pattern.format(*idents) if init_pattern else None
             if type(opt_pattern) is str:
                 mol_input['opt_fname'] = opt_pattern.format(*idents) if opt_pattern else None
@@ -199,13 +199,13 @@ class Analysis(object):
         #add the molecules to the internal table  
         for molecule, idents, inputs, read_error in zip(molecules, identifiers, 
                                                          mol_inputs, read_errors):
-            num_files = filter(lambda x:x, [inputs['init_fname'], inputs['opt_fname'], 
-                                            inputs['freq_fname'], inputs['nbo_fname']])
+            num_files = [x for x in [inputs['init_fname'], inputs['opt_fname'], 
+                                            inputs['freq_fname'], inputs['nbo_fname']] if x]
             if read_error != num_files and (not read_error or add_if_error):
                 self._add_molecule(molecule, idents)
         
         #collate read errors into a dataframe to return  
-        read_errors = filter(len, read_errors)                         
+        read_errors = list(filter(len, read_errors))                         
         err_df = pd.DataFrame([item for sublist in read_errors for item in sublist])
         if read_errors:
             cols = err_df.columns.tolist()
@@ -262,7 +262,7 @@ class Analysis(object):
         else:
             df = self._df.drop('Molecule', axis=1)
         
-        for key, val in filters.iteritems():
+        for key, val in filters.items():
             if type(val) is list or type(val) is tuple:
                  df = df[getattr(df, key).isin(val)]
             else:
@@ -342,7 +342,7 @@ class Analysis(object):
         prop : str
             can be 'basis', 'nbasis', 'optimised', 'opt_error' or 'conformer'        
         """
-        if prop not in self._basic_properties.keys():
+        if prop not in list(self._basic_properties.keys()):
             raise ValueError('{0} not a molecule property'.format(prop))
         
         def get_prop(m):
@@ -362,7 +362,7 @@ class Analysis(object):
             try:
                 series = self.get_basic_property(prop)
             except Exception:
-                print 'error reading {0} \n setting to NaN'.format(prop)
+                print('error reading {0} \n setting to NaN'.format(prop))
                 series = pd.np.nan
             self._df[prop.capitalize()] = series  
         
@@ -936,7 +936,7 @@ class Analysis(object):
             legend = []
             for indx, row in df.iterrows():
                 plot_kwargs = all_plot_kwargs.copy()
-                for k, v in per_plot_kwargs.iteritems():
+                for k, v in per_plot_kwargs.items():
                     plot_kwargs[k] = v[ax_num]
                 getattr(row.Molecule, mol_func)(ax=ax, **plot_kwargs)
 

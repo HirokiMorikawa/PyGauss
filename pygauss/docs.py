@@ -52,7 +52,7 @@ class MSDocument(object):
     def __dir__(self):
         """ required to have :py:class:`docx.document.Document` methods in 
         :py:mod:`IPython` tab completion"""
-        dirlist = self.__class__.__dict__.keys() + self._docx.__class__.__dict__.keys()
+        dirlist = list(self.__class__.__dict__.keys()) + list(self._docx.__class__.__dict__.keys())
         return sorted(dirlist)           
 
     def add_picture(self, image_path_or_stream, width=None, height=None):
@@ -408,7 +408,7 @@ class MSDocument(object):
                     start_col = end_col = end_col + 1
                 
         else:
-            for col, val in enumerate(df.keys()):
+            for col, val in enumerate(list(df.keys())):
                 cell = table.rows[hrows-1].cells[col+icols]
                 self._add_headrw(cell, val)
 
@@ -448,7 +448,7 @@ class MSDocument(object):
                     self._add_headrw(cell, df.index[row])
                     
                     
-            for col, item in enumerate(id_series[1].iteritems()):
+            for col, item in enumerate(iter(id_series[1].items())):
                 cell = table.rows[row+hrows].cells[col+icols]
                 cell.text = str(self._sigfigs(item[1], sig_figures))
                 p = cell.paragraphs[0]

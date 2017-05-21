@@ -26,7 +26,7 @@ class Test_Analysis(object):
                     opt_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_opt*unfrz.log',
                     freq_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_freq*.log',
                     nbo_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-                    alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]})
+                    alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]})
         that.assert_equals(len(errors), 0)
         that.assert_equals(analysis.count_runs(), 1)
         
@@ -40,7 +40,7 @@ class Test_Analysis(object):
                     opt_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_opt*unfrz.log',
                     freq_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_freq*.log',
                     nbo_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-                    alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]})
+                    alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]})
         that.assert_equals(len(errors), 1)
         that.assert_equals(analysis.count_runs(), 0)
 
@@ -53,7 +53,7 @@ class Test_Analysis(object):
                     opt_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_opt*unfrz.log',
                     freq_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_freq*.log',
                     nbo_fname='*emim-cl_B_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-                    alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]},
+                    alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]},
                     add_if_error=True)
         that.assert_equals(len(errors), 1)
         that.assert_equals(analysis.count_runs(), 1)
@@ -68,7 +68,7 @@ class Test_Analysis(object):
                     opt_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_opt*unfrz.log',
                     freq_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_freq*.log',
                     nbo_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-                    alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]})
+                    alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]})
         
         that.assert_equals(analysis.count_runs(), 3)
 
@@ -107,7 +107,7 @@ class Test_Analysis(object):
                           opt_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_opt*unfrz.log',
                           freq_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_freq*.log',
                           nbo_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-                          alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]})
+                          alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]})
 
         analysis.add_mol_property(name, prop, *args, **kwargs)
 
@@ -122,7 +122,7 @@ class Test_Analysis(object):
                     opt_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_opt*unfrz.log',
                     freq_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_freq*.log',
                     nbo_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-                    alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]})
+                    alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]})
 
         fig, caption = analysis.plot_mol_images(mtype=mtype, max_cols=2,
                                 info_columns=['Cation', 'Anion', 'Initial'],
@@ -144,7 +144,7 @@ class Test_Analysis(object):
             opt_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_opt*unfrz.log',
             freq_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_freq*.log',
             nbo_pattern='*{0}-{1}_{2}_6-311+g-d-p-_gd3bj_pop-nbo-full-*.log',
-            alignto=[3,2,1], atom_groups={'emim':range(20), 'cl':[20]})
+            alignto=[3,2,1], atom_groups={'emim':list(range(20)), 'cl':[20]})
             
         fig, caption = analysis.plot_mol_graphs(gtype=gtype, share_plot=share_plot, 
                                                 info_columns=['Cation', 'Anion', 'Initial'], 

@@ -151,8 +151,8 @@ def df_to_img(df, na_rep='-', other_temp=None, font_size=None,
     """
     if font_size:
         #estimate height of table to give certain font size
-        row_height = interp1d(_PTS_TO_PIX.keys(),
-                              _PTS_TO_PIX.values())(font_size) 
+        row_height = interp1d(list(_PTS_TO_PIX.keys()),
+                              list(_PTS_TO_PIX.values()))(font_size) 
         if hasattr(df.columns, 'levels'):
             header_rows = len(df.columns.levels)
         else:
@@ -263,7 +263,7 @@ def imgplot_kmean_groups(analysis, category, cat_name, groups,
                     fontsize=20, x=0, color='blue')
         fig.subplots_adjust(top=0.8)        
         plt.show()  
-        print caption
+        print(caption)
         
 if __name__ == '__main__':    
-    print circumcenter([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    print(circumcenter([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))

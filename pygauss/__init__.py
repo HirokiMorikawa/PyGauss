@@ -35,7 +35,7 @@ from .file_io import Folder
 from .docs import MSDocument
 from .utils import df_to_img, set_imagik_exe
 
-import cPickle as pkl
+import pickle as pkl
 import datetime
 def save_object(obj, filename, descript=''):
     filepath = filename + '.pkl'
@@ -51,8 +51,8 @@ def load_object(filename):
     with open(filepath, 'rb') as f:
         meta = pkl.load(f)
         if not meta['pg_version'] == __version__:
-            print 'Warning file ({0}) and package ({1}) versions differs'.format(
-                            meta['pg_version'], __version__)
+            print('Warning file ({0}) and package ({1}) versions differs'.format(
+                            meta['pg_version'], __version__))
         obj = pkl.load(f)
     return obj
 def load_object_meta(filename):

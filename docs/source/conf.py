@@ -59,10 +59,10 @@ MOCK_MODULES = ['cclib', 'cclib.parser', 'cclib.parser.utils',
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 
-git_history = urllib2.urlopen('https://api.github.com/repos/chrisjsewell/Pygauss/releases')
+git_history = urllib.request.urlopen('https://api.github.com/repos/chrisjsewell/Pygauss/releases')
 git_history_json = json.load(git_history)
 with open('history.rst', 'w') as f:
 	f.write('Whats New\n')
@@ -76,7 +76,7 @@ with open('history.rst', 'w') as f:
 			f.write(' '.join([line, '\n']))
 		f.write('\n')
 
-git_issues = urllib2.urlopen('https://api.github.com/repos/chrisjsewell/Pygauss/issues')
+git_issues = urllib.request.urlopen('https://api.github.com/repos/chrisjsewell/Pygauss/issues')
 git_issues_json = json.load(git_issues)
 with open('enhancements.rst', 'w') as f:
 	f.write('Whats To Come\n')
@@ -138,8 +138,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PyGauss'
-copyright = u'2015, Chris Sewell'
+project = 'PyGauss'
+copyright = '2015, Chris Sewell'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -291,8 +291,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'PyGauss.tex', u'PyGauss Documentation',
-   u'Chris Sewell', 'manual'),
+  ('index', 'PyGauss.tex', 'PyGauss Documentation',
+   'Chris Sewell', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -321,8 +321,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pygauss', u'PyGauss Documentation',
-     [u'Chris Sewell'], 1)
+    ('index', 'pygauss', 'PyGauss Documentation',
+     ['Chris Sewell'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -335,8 +335,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'PyGauss', u'PyGauss Documentation',
-   u'Chris Sewell', 'PyGauss', 'A Python API for analysis of Gaussian computations',
+  ('index', 'PyGauss', 'PyGauss Documentation',
+   'Chris Sewell', 'PyGauss', 'A Python API for analysis of Gaussian computations',
    'Miscellaneous'),
 ]
 

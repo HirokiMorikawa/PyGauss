@@ -60,7 +60,7 @@ class MolecularViewer(RepresentationViewer):
         if "bonds" not in self.topology:
             return
 
-        bond_start, bond_end = zip(*self.topology['bonds'])
+        bond_start, bond_end = list(zip(*self.topology['bonds']))
         bond_start = np.array(bond_start)
         bond_end = np.array(bond_end)
 
@@ -75,7 +75,7 @@ class MolecularViewer(RepresentationViewer):
                                                   'endColors': color_array[bond_end].tolist()})
 
         def update(self=self, lines=lines):
-            bond_start, bond_end = zip(*self.topology['bonds'])
+            bond_start, bond_end = list(zip(*self.topology['bonds']))
             bond_start = np.array(bond_start)
             bond_end = np.array(bond_end)
 
@@ -111,7 +111,7 @@ class MolecularViewer(RepresentationViewer):
         # Add the cylinders
 
         if 'bonds' in self.topology:
-            start_idx, end_idx = zip(*self.topology['bonds'])
+            start_idx, end_idx = list(zip(*self.topology['bonds']))
             cylinders = self.add_representation('cylinders', {'startCoords': self.coordinates[list(start_idx)],
                                                   'endCoords': self.coordinates[list(end_idx)],
                                                   'colors': [0xcccccc] * len(self.coordinates),
